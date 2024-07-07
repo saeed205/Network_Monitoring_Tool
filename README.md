@@ -1,50 +1,103 @@
-# Network Monitoring Tool
+# Ping Monitoring Tool
 
-This is a simple network monitoring tool written in Python. It pings the specified hosts continuously and provides real-time latency, success rate, jitter, and other details in a neatly formatted table. The tool utilizes the `ping3` package for pinging the hosts and the `rich` library for the display of results.
+This Ping Monitoring Tool is a Python-based script designed to monitor the latency and availability of a list of hosts. It provides real-time updates on various metrics such as average latency, success rate, and jitter.
 
 ## Features
 
-- Ping multiple hosts simultaneously
-- Calculate average latency of the last 10 pings
-- Show latency change (increase or decrease) based on the average latency
-- Calculate success rate based on the last 10 pings
-- Calculate the number of total ping tests performed
-- Show the timestamp of the last ping test
-- Calculate jitter, which is the difference between the maximum and minimum latency values over the last 10 successful pings
+- **Real-time Monitoring**: Continuously monitors and displays ping statistics for a list of hosts.
+- **Latency Tracking**: Tracks average latency, latency changes, and jitter.
+- **Success Rate Calculation**: Calculates and displays the success rate of ping attempts.
+- **Host Expansion**: Supports CIDR notation and IP ranges for bulk host monitoring.
+- **Hostname Resolution**: Resolves and displays the hostname for each IP address.
 
-## Prerequisites
+## Installation
 
-To run this tool, you need Python 3.6 or later. The required packages can be installed with:
+1. **Clone the Repository**
 
-```
-pip install ping3 rich
-```
+   ```sh
+   git clone https://github.com/saeed205/Network_Monitoring_Tool.git
+   cd Network_Monitoring_Tool
+   ```
+
+2. **Install Dependencies**
+
+   The required dependencies are listed in the `requirements.txt` file. You can install them using `pip`.
+
+   ```sh
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
-To use this tool, provide the IP addresses or hostnames as arguments when running the script:
+1. **Prepare the Hosts List**
 
-```
-python main.py 8.8.8.8 8.8.4.4
-```
+   Create a `hosts.txt` file in the root directory of the project. List the hosts you want to monitor, one per line. You can use individual IP addresses, CIDR notation, or IP ranges.
 
-This will start pinging the Google DNS servers and present the result in a continuously updating table:
+   Example `hosts.txt`:
 
-```
-┏━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━┓
-┃ # ┃ Host   ┃ Hostname         ┃ Ping Response┃ Average Latency┃ Latency Change ┃ Success Rate┃ Test Count┃ Last Update   ┃ Jitter ┃
-┡━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━┩
-│ 1 │8.8.8.8 │dns.google        │9.58 ms      │9.58 ms         │               │100.00 %     │1          │2023-07-25 14:25:26│0.00 ms│
-│ 2 │8.8.4.4 │dns.google        │11.24 ms     │11.24 ms        │               │100.00 %     │1          │2023-07-25 14:25:26│0.00 ms│
-└───┴────────┴──────────────────┴─────────────┴─────────────────┴───────────────┴─────────────┴───────────┴───────────────┴───────┘
-```
+   ```
+   192.168.1.1
+   192.168.1.5-192.168.1.10
+   192.168.2.0/24
+   google.com
+   ```
 
-## Explanation
+2. **Run the Script**
 
-The script starts by taking IP addresses or hostnames as arguments. For each host, it starts a separate thread that continuously pings the host and updates the host's results in the shared results dictionary.
+   Execute the script using Python.
 
-The `HostResult` class is used to store the results for a host. It includes the host's IP address or hostname, the latest ping response, a history of the last 10 ping latencies, the average latency, an indicator of latency change, the calculated success rate, the total number of ping tests performed, the timestamp of the last ping test, and the calculated jitter.
+   ```sh
+   python main.py
+   ```
 
-The `ping_host` function is responsible for continuously pinging a host and updating the host's result. It pings the host using the `ping3` package, records the latency, calculates the average latency, determines if the latency has increased or decreased compared to the previous average latency, calculates the success rate, counts the total number of tests, records the timestamp of the last test, and calculates the jitter.
+   The script will start monitoring the hosts listed in `hosts.txt` and display real-time statistics in the console.
 
-The `main` function starts the pinging threads and continuously updates the display table with the latest results using the `rich` library.
+## Code Explanation
+
+### Main Components
+
+1. **HostResult Class**: Stores and manages the ping statistics for each host.
+
+2. **ping_host Function**: Continuously pings a host, updates its statistics, and stores the results in a shared dictionary.
+
+3. **expand_hosts Function**: Expands CIDR notations and IP ranges into individual IP addresses.
+
+4. **main Function**: Reads the hosts from the `hosts.txt` file, initializes the monitoring threads, and displays the real-time statistics using the Rich library.
+
+### Ping Monitoring
+
+- The script uses the `ping3` library to send ICMP ping requests to each host.
+- The ping responses are recorded and analyzed to calculate various metrics:
+  - **Response Time**: Time taken for the ping request to receive a response.
+  - **Average Latency**: Average response time over the last 10 pings.
+  - **Latency Change**: Indicates if the average latency has increased or decreased.
+  - **Success Rate**: Percentage of successful ping responses.
+  - **Jitter**: Difference between the maximum and minimum response times in the last 10 pings.
+
+### Real-time Display
+
+- The `rich` library is used to create a live-updating table in the console.
+- The table displays the following columns:
+  - Host
+  - Hostname
+  - Ping Response
+  - Average Latency
+  - Latency Change
+  - Success Rate
+  - Test Count
+  - Last Update
+  - Jitter
+
+## Dependencies
+
+- Python 3.x
+- `ping3` library for sending ping requests
+- `rich` library for creating the live-updating console table
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss improvements or bug fixes.
+
+## License
+
+This project is licensed under the MIT License.
