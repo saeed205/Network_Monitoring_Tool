@@ -37,6 +37,7 @@ def ping_host(host, results):
             host_result.response = "unavailable"
             host_result.history.append(None)
         else:
+            ms = ms * 100 * 10
             host_result.response = f"{ms:.2f} ms"
             host_result.history.append(ms)
 
