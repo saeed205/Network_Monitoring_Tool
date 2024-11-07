@@ -213,24 +213,3 @@ Contributions are highly welcome! Whether it's reporting bugs, suggesting enhanc
 
 This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software as per the license terms.
 
----
-
-## Additional Recommendations
-
-1. **Add a `LICENSE` File**:
-   Ensure you have a `LICENSE` file in your repository containing the full text of the MIT License.
-
-2. **Include Screenshots**:
-   Visual aids can help users understand what to expect when running the tool. Consider adding screenshots of the console output.
-
-3. **Provide Example Output**:
-   Including snippets of sample output in the README can give users a quick preview of the tool's functionality.
-
-4. **Enhance Error Handling Documentation**:
-   Document common errors and troubleshooting steps to assist users in resolving potential issues.
-
-5. **Automate Testing**:
-   Incorporate tests to ensure the reliability of your tool. You can mention testing instructions in the README if applicable.
-
-6. **Continuous Integration**:
-   Set up CI/CD pipelines (e.g., GitHub Actions) to automate testing and deployment processes.
